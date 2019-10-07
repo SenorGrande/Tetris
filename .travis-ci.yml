@@ -1,0 +1,25 @@
+language: python
+python:
+- '3.6'
+branches:
+  only: master
+install:
+- pip install awscli
+- pip install aws-sam-cli
+script:
+- sam validate
+- sam package --template-file highscore-service/template.yaml --s3-bucket highscore-service --output-template-file highscore-service/packaged.yaml
+deploy:
+  provider: script
+  script: sam deploy --template-file highscore-service/packaged.yaml --stack-name travis-serverless-test
+  skip_cleanup: true
+  on:
+    branch: master
+# notifications:
+#   email:
+#     on_failure: always
+env:
+  global:
+  - AWS_DEFAULT_REGION=ap-southeast-2
+  - AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY
+  - AWS_SECRET_ACCESS_KEY=$AWS_SECRET_KEY
