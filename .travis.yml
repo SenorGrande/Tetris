@@ -24,7 +24,6 @@ deploy:
     skip_cleanup: true
     region: $AWS_DEFAULT_REGION
     local_dir: frontend
-  provider: script
   
 env:
   global:
