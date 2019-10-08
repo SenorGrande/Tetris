@@ -10,7 +10,7 @@ script:
 - sam package --template-file highscore-service/template.yaml --s3-bucket highscore-service --output-template-file highscore-service/packaged.yaml
 deploy:
   - provider: script
-    script: sam deploy --template-file highscore-service/packaged.yaml --stack-name travis-serverless-test
+    script: sam deploy --template-file highscore-service/packaged.yaml --capabilities CAPABILITY_IAM --stack-name travis-serverless-test
     skip_cleanup: true
     on:
       branch: master
@@ -24,6 +24,8 @@ deploy:
     skip_cleanup: true
     region: $AWS_DEFAULT_REGION
     local_dir: frontend
+  provider: script
+  
 env:
   global:
   - AWS_DEFAULT_REGION=ap-southeast-2
