@@ -9,14 +9,21 @@ install:
 script:
 - sam package --template-file highscore-service/template.yaml --s3-bucket highscore-service --output-template-file highscore-service/packaged.yaml
 deploy:
-  provider: script
-  script: sam deploy --template-file highscore-service/packaged.yaml --stack-name travis-serverless-test
-  skip_cleanup: true
-  on:
-    branch: master
-# notifications:
-#   email:
-#     on_failure: always
+  - provider: script
+    script: sam deploy --template-file highscore-service/packaged.yaml --stack-name travis-serverless-test
+    skip_cleanup: true
+    on:
+      branch: master
+#   notifications:
+#     email:
+#       on_failure: always
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY_ID
+    secret_access_key: $AWS_SECRET_ACCESS_KEY
+    bucket: "tetris-frontend"
+    skip_cleanup: true
+    region: $AWS_DEFAULT_REGION
+    local_dir: frontend
 env:
   global:
   - AWS_DEFAULT_REGION=ap-southeast-2
