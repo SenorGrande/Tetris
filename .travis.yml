@@ -8,7 +8,7 @@ install:
 - pip install aws-sam-cli
 script:
 - sam package --template-file highscore-service/template.yaml --s3-bucket highscore-service --output-template-file highscore-service/packaged.yaml
-- build.sh
+- bash build.sh
 deploy:
   - provider: script
     script: sam deploy --template-file highscore-service/packaged.yaml --capabilities CAPABILITY_IAM --stack-name travis-serverless-test
