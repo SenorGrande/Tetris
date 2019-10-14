@@ -7,7 +7,7 @@ install:
 - pip install awscli
 - pip install aws-sam-cli
 script:
-- sam build -b highscore-service -t highscore-service/template.yaml
+- sam build -t highscore-service/template.yaml
 - sam package --template-file .aws-sam/build/template.yaml --s3-bucket highscore-service --output-template-file highscore-service/packaged.yaml
 - bash build.sh
 deploy:
