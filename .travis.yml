@@ -3,6 +3,7 @@ python:
 - '3.6'
 branches:
   only: master
+warnings_are_errors: false
 install:
 - pip install awscli
 - pip install aws-sam-cli
@@ -13,8 +14,6 @@ deploy:
   - provider: script
     script: sam deploy --template-file highscore-service/packaged.yaml --capabilities CAPABILITY_IAM --stack-name travis-serverless-test
     skip_cleanup: true
-    on:
-      branch: master
 #   notifications:
 #     email:
 #       on_failure: always
