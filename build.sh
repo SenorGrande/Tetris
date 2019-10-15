@@ -1,4 +1,5 @@
 #!/bin/sh
 cd frontend/react-tetris
-npm run build
+npm install
+CI=false npm run build
 
