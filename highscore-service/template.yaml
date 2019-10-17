@@ -23,9 +23,11 @@ Resources:
           Properties:
             Path: /hello
             Method: get
+        UpdateHighScore:
           Properties:
             Path: /update-hs
             Method: post
+        GetHighScore:
           Properties:
             Path: /get-hs
             Method: get
