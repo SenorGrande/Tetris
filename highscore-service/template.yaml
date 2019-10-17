@@ -37,18 +37,16 @@ Resources:
       
   # DynamoDB Table
   HighScoreDB:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      AttributeDefinitions:
-        - AttributeName: id
-          AttirbuteType: S
-      KeySchema:
-        - AttributeName: id
-          KeyType: HASH
-      ProvisionedThroughput:
-        ReadCapacityUnits: 5
+    Type: AWS::Serverless::SimpleTable # if you want to define a more complex table, use AWS::DynamoDB::Table
+    TableName: highScoreTable
+    PrimaryKey:
+        Name: scoreId
+        Type: String
+    ProvisionedThroughput:
+        ReadCapacityUnit: 5
         WriteCapacityUnits: 5
-      Policies: AmazonDynamoDBFullAccess
+    Tags:
+        AppType: Serverless
 
 
 Outputs:
