@@ -34,7 +34,7 @@ Resources:
           Properties:
             Path: /get-hs
             Method: get
-      Policies: AmazonDynamoDBFullAccess
+      
   # DynamoDB Table
   HighScoreDB:
     Type: AWS::DynamoDB::Table
@@ -48,6 +48,7 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
+      Policies: AmazonDynamoDBFullAccess
 
 
 Outputs:
