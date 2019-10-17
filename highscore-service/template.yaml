@@ -62,9 +62,6 @@ Outputs:
   GetHighScoreApi:
     Description: "API Gateway endpoint URL for Prod stage for the High Score service to request the high score"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/get-hs/"
-  HighScoreDynamoDB:
-    Description: "DynamoDB Table to record High Scores"
-    Value: !GetAtt HighWorldFunction.Arn
   HelloWorldFunction:
     Description: "Hello World Lambda Function ARN"
     Value: !GetAtt HelloWorldFunction.Arn
