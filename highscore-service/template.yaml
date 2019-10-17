@@ -11,6 +11,7 @@ Globals:
     Timeout: 3
 
 Resources:
+  # The Lambda Function
   HelloWorldFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -33,6 +34,20 @@ Resources:
           Properties:
             Path: /get-hs
             Method: get
+  # DynamoDB Table
+  HighScoreDB:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: id
+          AttirbuteType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
@@ -47,6 +62,9 @@ Outputs:
   GetHighScoreApi:
     Description: "API Gateway endpoint URL for Prod stage for the High Score service to request the high score"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/get-hs/"
+  HighScoreDynamoDB:
+    Description: "DynamoDB Table to record High Scores"
+    Value: !GetAtt HighWorldFunction.Arn
   HelloWorldFunction:
     Description: "Hello World Lambda Function ARN"
     Value: !GetAtt HelloWorldFunction.Arn
