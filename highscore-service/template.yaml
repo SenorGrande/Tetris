@@ -23,6 +23,12 @@ Resources:
           Properties:
             Path: /hello
             Method: get
+          Properties:
+            Path: /update-hs
+            Method: post
+          Properties:
+            Path: /get-hs
+            Method: get
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
@@ -31,9 +37,19 @@ Outputs:
   HelloWorldApi:
     Description: "API Gateway endpoint URL for Prod stage for Hello World function"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
+  UpdateHighScoreApi:
+    Description: "API Gateway endpoint URL for Prod stage for the High Score service to update the high score"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/update-hs/"
+  GetHighScoreApi:
+    Description: "API Gateway endpoint URL for Prod stage for the High Score service to request the high score"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/get-hs/"
   HelloWorldFunction:
     Description: "Hello World Lambda Function ARN"
     Value: !GetAtt HelloWorldFunction.Arn
   HelloWorldFunctionIamRole:
     Description: "Implicit IAM Role created for Hello World function"
     Value: !GetAtt HelloWorldFunctionRole.Arn
+
+# curl current hello world api
+# start with post to dynamodb table
+# start with get request from dynamodb table
