@@ -24,10 +24,12 @@ Resources:
             Path: /hello
             Method: get
         UpdateHighScore:
+          Type: Api
           Properties:
             Path: /update-hs
             Method: post
         GetHighScore:
+          Type: Api
           Properties:
             Path: /get-hs
             Method: get
