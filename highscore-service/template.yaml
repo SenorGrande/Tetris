@@ -71,7 +71,6 @@ Resources:
       KeySchema:
         - AttributeName: itemId
           KeyType: HASH
-        AppType: Serverless
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
