@@ -62,16 +62,15 @@ Resources:
   #   Tags:
   #       AppType: Serverless
   HighScoreDB:
-    Type: 'AWS::Dynamo::SimpleTable'
+    Type: 'AWS::DynamoDB::Table'
     Properties:
       TableName: !Ref TableName
-      PrimaryKey:
-        Name: scoreId
-        Type: String
-      ProvisionedThroughput:
-        ReadCapacityUnit: 5
-        WriteCapacityUnits: 5
-      Tags:
+      AttributeDefinitions:
+        - AttributeName: itemId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: itemId
+          KeyType: HASH
         AppType: Serverless
 
 Outputs:
