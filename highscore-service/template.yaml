@@ -68,10 +68,10 @@ Resources:
       PrimaryKey:
         Name: scoreId
         Type: String
-    ProvisionedThroughput:
+      ProvisionedThroughput:
         ReadCapacityUnit: 5
         WriteCapacityUnits: 5
-    Tags:
+      Tags:
         AppType: Serverless
 
 Outputs:
