@@ -56,7 +56,7 @@ Resources:
       KeySchema:
         - AttributeName: itemId
           KeyType: HASH
-        ProvisionedThroughput:
+      ProvisionedThroughput:
           ReadCapacityUnit: 5
           WriteCapacityUnits: 5
 
