@@ -25,7 +25,7 @@ def lambda_handler(event, context):
                 # POST postData['score'] to the table
                 statusMsg = 'Successful POST request'
                 score = str(postData['score'])
-                dynamodb.put_item(TableName, Item={'itemId':{'S':'Test'},'score':{'N':score}})
+                dynamodb.put_item(TableName=tableName, Item={'itemId':{'S':'Test'},'score':{'N':score}})
 
     return {
         "statusCode": statusCode,
