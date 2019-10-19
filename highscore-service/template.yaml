@@ -57,7 +57,7 @@ Resources:
         - AttributeName: itemId
           KeyType: HASH
       ProvisionedThroughput:
-        ReadCapacityUnit: 5
+        ReadCapacityUnits: 5
         WriteCapacityUnits: 5
 
   # DynamoDB Table
