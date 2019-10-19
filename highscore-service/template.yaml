@@ -56,9 +56,9 @@ Resources:
       KeySchema:
         - AttributeName: itemId
           KeyType: HASH
-    ProvisionedThroughput:
-      ReadCapacityUnit: 5
-      WriteCapacityUnits: 5
+      ProvisionedThroughput:
+        ReadCapacityUnit: 5
+        WriteCapacityUnits: 5
 
   # DynamoDB Table
   # HighScoreDB:
