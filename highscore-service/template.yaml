@@ -46,29 +46,32 @@ Resources:
             Path: /get-hs
             Method: get
 
-  # HighScoreDB:
-  #   Type: 'AWS::DynamoDB::Table'
-  #   Properties:
-  #     TableName: !Ref TableName
-  #     AttributeDefinitions:
-  #       - AttributeName: itemId
-  #         AttributeType: S
-  #     KeySchema:
-  #       - AttributeName: itemId
-  #         KeyType: HASH
+  HighScoreDB:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      TableName: !Ref TableName
+      AttributeDefinitions:
+        - AttributeName: itemId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: itemId
+          KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnit: 5
+          WriteCapacityUnits: 5
 
   # DynamoDB Table
-  HighScoreDB:
-    Type: AWS::Serverless::SimpleTable # if you want to define a more complex table, use AWS::DynamoDB::Table
-    TableName: !Ref TableName
-    PrimaryKey:
-        Name: scoreId
-        Type: String
-    ProvisionedThroughput:
-        ReadCapacityUnit: 5
-        WriteCapacityUnits: 5
-    Tags:
-        AppType: Serverless
+  # HighScoreDB:
+  #   Type: AWS::Serverless::SimpleTable # if you want to define a more complex table, use AWS::DynamoDB::Table
+  #   TableName: !Ref TableName
+  #   PrimaryKey:
+  #       Name: scoreId
+  #       Type: String
+  #   ProvisionedThroughput:
+  #       ReadCapacityUnit: 5
+  #       WriteCapacityUnits: 5
+  #   Tags:
+  #       AppType: Serverless
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
