@@ -22,7 +22,47 @@ const Tetris = () => {
 
     const [player, updatePlayerPos, resetPlayer, playerRotate] = usePlayer();
     const [stage, setStage, rowsCleared] = useStage(player, resetPlayer);
-    const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(rowsCleared)
+    const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(rowsCleared);
+
+    const test = () => {
+        fetch('https://phka790ma1.execute-api.ap-southeast-2.amazonaws.com/Prod/get-hs', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Header': '*',
+                'Access-Control-Allow-Methods': 'GET, OPTIONS',
+            },
+        })
+            .then(response => {
+                return response.json();
+            }).then(data => {
+                console.log(data);
+            })
+    }
+
+    const posttest = () => {
+        fetch('https://phka790ma1.execute-api.ap-southeast-2.amazonaws.com/Prod/update-hs', {
+            method: 'POST',
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                Test: 9000
+            })
+        })
+    }
+
+    const getHighScore = () => {
+        
+        return [9000];
+    }
+    const [highscore] = getHighScore();
+
+    console.log(test());
+    // console.log(posttest());
 
     console.log('re-render');
 
@@ -117,6 +157,8 @@ const Tetris = () => {
                             {/* Add High score */}
                         </div>
                     )}
+                    {/* Add High score */}
+                    <Display text={`High Score: ${highscore}`} />
                     <StartButton callback={startGame} />
                 </aside>
             </StyledTetris>
