@@ -47,7 +47,7 @@ Resources:
             Method: get
 
   HighScoreDB:
-    Type: 'AWS::DynamoDB::Table'
+    Type: AWS::DynamoDB::Table
     Properties:
       TableName: !Ref TableName
       AttributeDefinitions:
@@ -59,6 +59,12 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
+
+  HighScoreApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: High Score AWS Api Gateway
+      StageName: Staging
 
   # DynamoDB Table
   # HighScoreDB:
