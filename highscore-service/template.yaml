@@ -9,6 +9,10 @@ Description: >
 Globals:
   Function:
     Timeout: 3
+  
+  Api:
+    EndpointConfiguration: REGIONAL
+    Cors: "*"
 
 Parameters:
   TableName:
