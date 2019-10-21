@@ -74,16 +74,6 @@ Resources:
     Properties:
       Name: High Score AWS Api Gateway
       StageName: Prod
-      Auth:
-        Authorizers:
-          BasicAuthorizer:
-            FunctionPayloadType: TOKEN
-            FunctionArn: !ImportValue BasicAuthorizerFunction-Arn
-            Identity:
-              Header: Authorization
-              ValidationExpression: ^[Bb]earer [-0-9a-zA-z\.]*$
-              ReauthorizeEvery: 0
-        DefaultAuthorizer: BasicAuthorizer
       Cors: "'*'"
       DefinitionBody:
         'Fn::Transform':
