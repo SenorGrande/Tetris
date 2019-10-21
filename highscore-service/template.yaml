@@ -40,11 +40,13 @@ Resources:
           Properties:
             Path: /update-hs
             Method: post
+            RestApiId: !Ref HighScoreApi
         GetHighScore:
           Type: Api
           Properties:
             Path: /get-hs
             Method: get
+            RestApiId: !Ref HighScoreApi
 
   HighScoreDB:
     Type: AWS::DynamoDB::Table
@@ -64,7 +66,7 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       Name: High Score AWS Api Gateway
-      StageName: Staging
+      StageName: Prod
 
   # DynamoDB Table
   # HighScoreDB:
@@ -85,10 +87,10 @@ Outputs:
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
   UpdateHighScoreApi:
     Description: "API Gateway endpoint URL for Prod stage for the High Score service to update the high score"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/update-hs/"
+    Value: !Sub "https://${HighScoreApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/update-hs/"
   GetHighScoreApi:
     Description: "API Gateway endpoint URL for Prod stage for the High Score service to request the high score"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/get-hs/"
+    Value: !Sub "https://${HighScoreApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/get-hs/"
   HighScoreFunction:
     Description: "Hello World Lambda Function ARN"
     Value: !GetAtt HighScoreFunction.Arn
