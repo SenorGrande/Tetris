@@ -100,7 +100,7 @@ Outputs:
   #   Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/get-hs/"
   HighScoreApi:
     Description: "API Gateway endpoint URL for Production stage for High Score backend service"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+    Value: !Sub "https://${HighScoreApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
   HighScoreFunction:
     Description: "Hello World Lambda Function ARN"
     Value: !GetAtt HighScoreFunction.Arn
