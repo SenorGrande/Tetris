@@ -9,6 +9,13 @@ Description: >
 Globals:
   Function:
     Timeout: 3
+  
+  # Api:
+  #   EndpointConfiguration: REGIONAL
+  #   Cors: 
+  #     AllowMethods: "'*'"
+  #     AllowHeaders: "'*'"
+  #     AllowOrigin: "'*'"
 
 Parameters:
   TableName:
@@ -67,6 +74,12 @@ Resources:
     Properties:
       Name: High Score AWS Api Gateway
       StageName: Prod
+      Cors: "'*'"
+      DefinitionBody:
+        'Fn::Transform':
+          Name: 'AWS::Include'
+          Parameters:
+            Location: s3://highscore-service/swagger.yaml
 
   # DynamoDB Table
   # HighScoreDB:
@@ -93,14 +106,19 @@ Outputs:
   #   Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/get-hs/"
   HighScoreApi:
     Description: "API Gateway endpoint URL for Production stage for High Score backend service"
-    Value: !Sub "https://${HighScoreApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/update-hs/"
+    Value: !Sub "https://${HighScoreApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+  HighScoreApiRestApiId:
+    Description: 'API Gateway ARN for Basic AWS API Gateway'
+    Value: !Ref HighScoreApi
+    Export:
+      Name: HighScoreApi-RestApiId
+  HighScoreAPiRootResourceId:
+    Value: !GetAtt HighScoreApi.RootResourceId
+    Export:
+      Name: HighScoreApi-RootResourceId
   HighScoreFunction:
-    Description: "Hello World Lambda Function ARN"
+    Description: "High Score Lambda Function ARN"
     Value: !GetAtt HighScoreFunction.Arn
   HighScoreFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
+    Description: "Implicit IAM Role created for High Score function"
     Value: !GetAtt HighScoreFunctionRole.Arn
-
-# curl current hello world api
-# start with post to dynamodb table
-# start with get request from dynamodb table
