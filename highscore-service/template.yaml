@@ -46,7 +46,7 @@ Resources:
           Type: Api
           Properties:
             Path: /update-hs
-            Method: post
+            Method: get
             RestApiId: !Ref HighScoreApi
         GetHighScore:
           Type: Api
