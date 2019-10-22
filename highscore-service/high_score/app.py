@@ -9,26 +9,32 @@ def lambda_handler(event, context):
     statusMsg = ''
     dynamodb = boto3.client('dynamodb')
 
+    currentHighScore = dynamodb.get_item(TableName=tableName, Key={'itemId':{'S':'Test'}})
+
     endpoint = ''
     if ('path' in event):
         endpoint = event['path']
 
     if (endpoint == '/get-hs'):
         # Get High Score
-        statusMsg = dynamodb.get_item(TableName=tableName, Key={'itemId':{'S':'Test'}})
+        statusMsg = currentHighScore
     elif (endpoint == '/update-hs'):
         # Update High Score in Dynamo
         # { "score": 5}
-        if ('queryStringParameters' in event):
-            postData = event['queryStringParameters']
+        if ('body' in event):
+            postData = event['body']
             if ('score' in postData):
-                # POST postData['score'] to the table
                 statusMsg = 'Successful POST request'
+                postData = json.loads(postData)
                 score = str(postData['score'])
-                dynamodb.put_item(TableName=tableName, Item={'itemId':{'S':'Test'},'score':{'N':score}})
+                if (score > currentHighScore['Item']['score']['N']):
+                    dynamodb.put_item(TableName=tableName, Item={'itemId':{'S':'Test'},'score':{'N':score}})
 
     return {
         "statusCode": statusCode,
+        "headers": {
+            "Access-Control-Allow-Origin": "*"
+        },
         "body": json.dumps({
             "message": statusMsg,
         }),

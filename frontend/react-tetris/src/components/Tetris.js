@@ -16,7 +16,20 @@ import Stage from './Stage';
 import Display from './Display';
 import StartButton from './StartButton';
 
+let test = 0;
+let highscore = 0;
+
+const testing = (score) => {
+    if (test === 0) {
+        console.log("HIYAA: " + score);
+        test = score;
+    }
+}
+
 const Tetris = () => {
+    
+    let response = "";
+
     const [dropTime, setDropTime] = useState(null);
     const [gameOver, setGameOver] = useState(false);
 
@@ -24,44 +37,64 @@ const Tetris = () => {
     const [stage, setStage, rowsCleared] = useStage(player, resetPlayer);
     const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(rowsCleared);
 
-    const test = () => {
-        fetch('https://phka790ma1.execute-api.ap-southeast-2.amazonaws.com/Prod/get-hs', {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Header': '*',
-                'Access-Control-Allow-Methods': 'GET, OPTIONS',
-            },
-        })
+    const getRequest = () => {
+        fetch('https://38z2mz0xi8.execute-api.ap-southeast-2.amazonaws.com/Prod/get-hs')
             .then(response => {
-                return response.json();
+                const responseJson = response.json()
+                // console.log(responseJson);
+                return responseJson;
             }).then(data => {
-                console.log(data);
+                const score = data.message.Item.score.N;
+                // console.log(score);
+                // this.setState({highscore: score});
+                // test = score;
+                console.log("SCORE: " + score);
+                testing(score);
+                return score;
             })
-    }
 
-    const posttest = () => {
-        fetch('https://phka790ma1.execute-api.ap-southeast-2.amazonaws.com/Prod/update-hs', {
-            method: 'POST',
-            header: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                Test: 9000
-            })
-        })
-    }
-
-    const getHighScore = () => {
+        // const response = await fetchResult;
+        // const jsonData = await response.json();
+        // // console.log(jsonData);
+        // // test = jsonData.message.Item.score.N
+        // return jsonData.message.Item.score.N;
         
-        return [9000];
     }
-    const [highscore] = getHighScore();
+    
+    const postRequest = (playerScore) => {
+        if (gameOver) {
+            console.log('GAME OVER');
+            fetch('https://38z2mz0xi8.execute-api.ap-southeast-2.amazonaws.com/Prod/update-hs', {
+                method: 'POST',
+                header: {
+                    'Access-Control-Allow-Origin': '*'
+                },
+                body: JSON.stringify({
+                    score: playerScore
+                })
+            })
+        }
+    }
 
-    console.log(test());
+    if (test === 0 && highscore === 0) {
+        getRequest();
+    }
+    postRequest(score);
+    console.log(highscore);
+
+    // const getHighScore = () => {
+    //     response = getRequest();
+    //     // let highscore = response;
+    //     // let highscore = test;
+    //     console.log("--- START RESPONSE ---");
+    //     console.log(response);
+    //     console.log("--- END RESPONSE ---");
+    //     return [highscore];
+    // }
+    // const [highscore] = getHighScore();
+    // const [highscore] = getRequest();
+
+    // console.log(test());
     // console.log(posttest());
 
     console.log('re-render');
@@ -81,6 +114,8 @@ const Tetris = () => {
         setScore(0);
         setRows(0);
         setLevel(0);
+        console.log("TESTING: " + parseInt(test));
+        highscore = test;
     }
 
     const drop = () => {
