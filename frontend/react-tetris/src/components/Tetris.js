@@ -16,19 +16,16 @@ import Stage from './Stage';
 import Display from './Display';
 import StartButton from './StartButton';
 
-let test = 0;
-let highscore = 0;
+let highscore = 0; // global variable to store high score from DynamoDB
 
-const testing = (score) => {
-    if (test === 0) {
-        console.log("HIYAA: " + score);
-        test = score;
+// Outside method to set global highscore variable
+const setHighScore = (score) => {
+    if (highscore === 0) {
+        highscore = score;
     }
 }
 
 const Tetris = () => {
-    
-    let response = "";
 
     const [dropTime, setDropTime] = useState(null);
     const [gameOver, setGameOver] = useState(false);
@@ -37,30 +34,21 @@ const Tetris = () => {
     const [stage, setStage, rowsCleared] = useStage(player, resetPlayer);
     const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(rowsCleared);
 
+    // Method to call AWS API Gateway and request high score
     const getRequest = () => {
         fetch('https://38z2mz0xi8.execute-api.ap-southeast-2.amazonaws.com/Prod/get-hs')
             .then(response => {
                 const responseJson = response.json()
-                // console.log(responseJson);
                 return responseJson;
             }).then(data => {
                 const score = data.message.Item.score.N;
-                // console.log(score);
-                // this.setState({highscore: score});
-                // test = score;
-                console.log("SCORE: " + score);
-                testing(score);
+                console.log("HIGH SCORE: " + score);
+                setHighScore(score);
                 return score;
-            })
-
-        // const response = await fetchResult;
-        // const jsonData = await response.json();
-        // // console.log(jsonData);
-        // // test = jsonData.message.Item.score.N
-        // return jsonData.message.Item.score.N;
-        
+            })        
     }
     
+    // Method to post high score to AWS API Gateway
     const postRequest = (playerScore) => {
         if (gameOver) {
             console.log('GAME OVER');
@@ -76,26 +64,17 @@ const Tetris = () => {
         }
     }
 
-    if (test === 0 && highscore === 0) {
+    //
+    if (highscore === 0) {
         getRequest();
     }
-    postRequest(score);
-    console.log(highscore);
-
-    // const getHighScore = () => {
-    //     response = getRequest();
-    //     // let highscore = response;
-    //     // let highscore = test;
-    //     console.log("--- START RESPONSE ---");
-    //     console.log(response);
-    //     console.log("--- END RESPONSE ---");
-    //     return [highscore];
-    // }
-    // const [highscore] = getHighScore();
-    // const [highscore] = getRequest();
-
-    // console.log(test());
-    // console.log(posttest());
+    if (gameOver) {
+        postRequest(score);
+    }
+    if (score > highscore) {
+        highscore = score;
+    }
+    //
 
     console.log('re-render');
 
@@ -114,8 +93,6 @@ const Tetris = () => {
         setScore(0);
         setRows(0);
         setLevel(0);
-        console.log("TESTING: " + parseInt(test));
-        highscore = test;
     }
 
     const drop = () => {
@@ -162,7 +139,7 @@ const Tetris = () => {
                 movePlayer(1);
             } else if (keyCode === 40) { // Down Arrow
                 dropPlayer();
-            } else if (keyCode === 38) {
+            } else if (keyCode === 38) { // Up Arrow
                 playerRotate(stage, 1);
             }
         }
@@ -189,11 +166,9 @@ const Tetris = () => {
                             <Display text={`Score: ${score}`} />
                             <Display text={`Rows: ${rows}`} />
                             <Display text={`Level: ${level}`} />
-                            {/* Add High score */}
                         </div>
                     )}
-                    {/* Add High score */}
-                    <Display text={`High Score: ${highscore}`} />
+                    <Display text={`High Score: ${highscore}`} /> {/* High score in DynamoDB */}
                     <StartButton callback={startGame} />
                 </aside>
             </StyledTetris>

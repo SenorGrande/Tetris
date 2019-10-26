@@ -11,6 +11,7 @@ __/\\\\\\\\\\\\\\\__/\\\\\\\\\\\\\\\__/\\\\\\\\\\\\\\\____/\\\\\\\\\______/\\\\\
 ```
 [![Build Status](https://travis-ci.com/SenorGrande/Tetris.svg?branch=master)](https://travis-ci.com/SenorGrande/Tetris)
 
-Create AWS credentials & store in Travis CI
+Create AWS credentials & store in Travis CI under Environment variables  
+ - AWS_ACCESS_KEY  
+ - AWS_SECRET_KEY  
 Create S3 bucket for backend & frontend
-

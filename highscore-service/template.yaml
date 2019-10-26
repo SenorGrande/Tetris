@@ -9,13 +9,6 @@ Description: >
 Globals:
   Function:
     Timeout: 3
-  
-  # Api:
-  #   EndpointConfiguration: REGIONAL
-  #   Cors: 
-  #     AllowMethods: "'*'"
-  #     AllowHeaders: "'*'"
-  #     AllowOrigin: "'*'"
 
 Parameters:
   TableName:
@@ -81,29 +74,10 @@ Resources:
           Parameters:
             Location: s3://highscore-service/swagger.yaml
 
-  # DynamoDB Table
-  # HighScoreDB:
-  #   Type: AWS::Serverless::SimpleTable # if you want to define a more complex table, use AWS::DynamoDB::Table
-  #   TableName: !Ref TableName
-  #   PrimaryKey:
-  #       Name: scoreId
-  #       Type: String
-  #   ProvisionedThroughput:
-  #       ReadCapacityUnit: 5
-  #       WriteCapacityUnits: 5
-  #   Tags:
-  #       AppType: Serverless
-
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  # UpdateHighScoreApi:
-  #   Description: "API Gateway endpoint URL for Prod stage for the High Score service to update the high score"
-  #   Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/update-hs/"
-  # GetHighScoreApi:
-  #   Description: "API Gateway endpoint URL for Prod stage for the High Score service to request the high score"
-  #   Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/get-hs/"
   HighScoreApi:
     Description: "API Gateway endpoint URL for Production stage for High Score backend service"
     Value: !Sub "https://${HighScoreApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
