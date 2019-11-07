@@ -41,7 +41,8 @@ const Tetris = () => {
                 const responseJson = response.json()
                 return responseJson;
             }).then(data => {
-                const score = data.message.Item.score.N;
+                // const score = data.message.Item.score.N;
+                const score = data.message;
                 console.log("HIGH SCORE: " + score);
                 setHighScore(score);
                 return score;
@@ -67,9 +68,6 @@ const Tetris = () => {
     //
     if (highscore === 0) {
         getRequest();
-    }
-    if (gameOver) {
-        postRequest(score);
     }
     if (score > highscore) {
         highscore = score;
@@ -111,6 +109,7 @@ const Tetris = () => {
                 console.log("GAME OVER!!!");
                 setGameOver(true);
                 setDropTime(null);
+                postRequest(score); // !
             }
             updatePlayerPos({ x: 0, y: 0, collided: true });
         }        

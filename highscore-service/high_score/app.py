@@ -10,6 +10,7 @@ def lambda_handler(event, context):
     dynamodb = boto3.client('dynamodb')
 
     currentHighScore = dynamodb.get_item(TableName=tableName, Key={'itemId':{'S':'Test'}})
+    currentHighScore = int(currentHighScore['Item']['score']['N'])
 
     endpoint = ''
     if ('path' in event):
@@ -26,9 +27,9 @@ def lambda_handler(event, context):
             if ('score' in postData):
                 statusMsg = 'Successful POST request'
                 postData = json.loads(postData)
-                score = str(postData['score'])
-                if (score > currentHighScore['Item']['score']['N']):
-                    dynamodb.put_item(TableName=tableName, Item={'itemId':{'S':'Test'},'score':{'N':score}})
+                score = int(postData['score'])
+                if (score > currentHighScore):
+                    dynamodb.put_item(TableName=tableName, Item={'itemId':{'S':'Test'},'score':{'N':str(score)}})
 
     return {
         "statusCode": statusCode,

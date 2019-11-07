@@ -13,11 +13,8 @@ script:
 - bash build.sh
 deploy:
   - provider: script
-    script: sam deploy --template-file highscore-service/packaged.yaml --capabilities CAPABILITY_IAM --stack-name travis-serverless-test
+    script: sam deploy --template-file highscore-service/packaged.yaml --capabilities CAPABILITY_IAM --stack-name tetris-stack
     skip_cleanup: true
-#   notifications:
-#     email:
-#       on_failure: always
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY_ID
     secret_access_key: $AWS_SECRET_ACCESS_KEY
