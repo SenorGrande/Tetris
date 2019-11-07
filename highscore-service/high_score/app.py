@@ -9,8 +9,11 @@ def lambda_handler(event, context):
     statusMsg = ''
     dynamodb = boto3.client('dynamodb')
 
-    currentHighScore = dynamodb.get_item(TableName=tableName, Key={'itemId':{'S':'Test'}})
-    currentHighScore = int(currentHighScore['Item']['score']['N'])
+    currentHighScore = dynamodb.get_item(TableName=tableName, Key={'itemId':{'S':'Highscore'}})
+    if 'Item' in currentHighScore:
+        currentHighScore = int(currentHighScore['Item']['score']['N'])
+    else:
+        currentHighScore = 0
 
     endpoint = ''
     if ('path' in event):
@@ -29,7 +32,7 @@ def lambda_handler(event, context):
                 postData = json.loads(postData)
                 score = int(postData['score'])
                 if (score > currentHighScore):
-                    dynamodb.put_item(TableName=tableName, Item={'itemId':{'S':'Test'},'score':{'N':str(score)}})
+                    dynamodb.put_item(TableName=tableName, Item={'itemId':{'S':'Highscore'},'score':{'N':str(score)}})
 
     return {
         "statusCode": statusCode,

@@ -17,11 +17,13 @@ import Display from './Display';
 import StartButton from './StartButton';
 
 let highscore = 0; // global variable to store high score from DynamoDB
+let gotScore = false;
 
 // Outside method to set global highscore variable
 const setHighScore = (score) => {
-    if (highscore === 0) {
+    if (!gotScore) {
         highscore = score;
+        gotScore = true;
     }
 }
 
@@ -36,7 +38,7 @@ const Tetris = () => {
 
     // Method to call AWS API Gateway and request high score
     const getRequest = () => {
-        fetch('https://38z2mz0xi8.execute-api.ap-southeast-2.amazonaws.com/Prod/get-hs')
+        fetch('https://zzowdgzta6.execute-api.ap-southeast-2.amazonaws.com/Prod/get-hs')
             .then(response => {
                 const responseJson = response.json()
                 return responseJson;
@@ -53,7 +55,7 @@ const Tetris = () => {
     const postRequest = (playerScore) => {
         if (gameOver) {
             console.log('GAME OVER');
-            fetch('https://38z2mz0xi8.execute-api.ap-southeast-2.amazonaws.com/Prod/update-hs', {
+            fetch('https://zzowdgzta6.execute-api.ap-southeast-2.amazonaws.com/Prod/update-hs', {
                 method: 'POST',
                 header: {
                     'Access-Control-Allow-Origin': '*'
@@ -66,8 +68,11 @@ const Tetris = () => {
     }
 
     //
-    if (highscore === 0) {
+    if (!gotScore) {
         getRequest();
+    }
+    if (gameOver) {
+        postRequest(score); // !
     }
     if (score > highscore) {
         highscore = score;
@@ -109,7 +114,6 @@ const Tetris = () => {
                 console.log("GAME OVER!!!");
                 setGameOver(true);
                 setDropTime(null);
-                postRequest(score); // !
             }
             updatePlayerPos({ x: 0, y: 0, collided: true });
         }        
